@@ -1,0 +1,30 @@
+{
+  "name": "yelpcamp",
+  "version": "1.0.0",
+  "description": "A Yelp-like website for campgrounds.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AdrianRC/yelp-camp.git"
+  },
+  "keywords": [
+    "Yelp",
+    "Camp",
+    "Campground",
+    "Campsite",
+    "Site"
+  ],
+  "author": "Adrian Rosario",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AdrianRC/yelp-camp/issues"
+  },
+  "homepage": "https://github.com/AdrianRC/yelp-camp#readme",
+  "dependencies": {
+    "ejs": "^2.5.6",
+    "express": "^4.14.1"
+  }
+}
