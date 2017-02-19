@@ -12,14 +12,16 @@ app.use(bodyParser.urlencoded({
 
 var campgroundSchema = new mongoose.Schema({
     name: String,
-    image: String
+    image: String,
+    description: String
 });
 
 var Campground = mongoose.model("Campground", campgroundSchema);
 
 // Campground.create({
 //     name: "Granite Hill",
-//     image: "img/8737935921.png"
+//     image: "img/8737935921.png",
+//     description: "This is a granite hill. No bathrooms. No water. Just beautiful granite!"
 // }, function (err, campground) {
 //     if (err) {
 //         console.log(err);
@@ -37,7 +39,7 @@ app.get("/campgrounds", function (req, res) {
         if (err) {
             console.log(err);
         } else {
-            res.render("campgrounds", {
+            res.render("index", {
                 campgrounds: campgrounds
             });
         }
@@ -51,9 +53,11 @@ app.get("/campgrounds/new", function (req, res) {
 app.post("/campgrounds", function (req, res) {
     var name = req.body.name;
     var image = req.body.image;
+    var description = req.body.description;
     Campground.create({
         name: name,
-        image: image
+        image: image,
+        description: description
     }, function (err, campground) {
         if (err) {
             console.log(err);
@@ -62,6 +66,18 @@ app.post("/campgrounds", function (req, res) {
         }
     });
     res.redirect("/campgrounds");
+});
+
+app.get("/campgrounds/:id", function (req, res) {
+    Campground.findById(req.params.id, function (err, foundCampground) {
+        if (err) {
+            console.log(err);
+        } else {
+            res.render("show", {
+                campground: foundCampground
+            });
+        }
+    });
 });
 
 app.get("*", function (req, res) {
