@@ -2,7 +2,8 @@ var express = require("express"),
     app = express(),
     bodyParser = require("body-parser"),
     mongoose = require("mongoose"),
-    Campground = require("./modules/campground"),
+    Comment = require("./modules/comment")
+Campground = require("./modules/campground"),
     seedDB = require("./seeds");
 
 mongoose.connect("mongodb://localhost/yelp_camp");
@@ -23,7 +24,7 @@ app.get("/campgrounds", function (req, res) {
         if (err) {
             console.log(err);
         } else {
-            res.render("index", {
+            res.render("campgrounds/index", {
                 campgrounds: campgrounds
             });
         }
@@ -31,7 +32,7 @@ app.get("/campgrounds", function (req, res) {
 })
 
 app.get("/campgrounds/new", function (req, res) {
-    res.render("new");
+    res.render("campgrounds/new");
 });
 
 app.post("/campgrounds", function (req, res) {
@@ -58,8 +59,46 @@ app.get("/campgrounds/:id", function (req, res) {
             console.log(err);
         } else {
             console.log(foundCampground);
-            res.render("show", {
+            res.render("campgrounds/show", {
                 campground: foundCampground
+            });
+        }
+    });
+});
+
+// COMMENTS ROUTES
+
+app.get("/campgrounds/:id/comments/new", function (req, res) {
+    Campground.findById(req.params.id, function (err, foundCampground) {
+        if (err) {
+            console.log(err);
+        } else {
+            res.render("comments/new", {
+                campground: foundCampground
+            });
+        }
+    });
+});
+
+app.post("/campgrounds/:id/comments", function (req, res) {
+    Campground.findById(req.params.id, function (err, foundCampground) {
+        if (err) {
+            console.log(err);
+        } else {
+            Comment.create(req.body.comment, function (err, createdComment) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    foundCampground.comments.push(createdComment);
+                    foundCampground.save(function (err, savedCampground) {
+                        if (err) {
+                            console.log(err);
+                        } else {
+                            console.log(savedCampground);
+                            res.redirect("/campgrounds/" + req.params.id);
+                        }
+                    });
+                }
             });
         }
     });
