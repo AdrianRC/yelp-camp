@@ -2,8 +2,12 @@ var express = require("express"),
     app = express(),
     bodyParser = require("body-parser"),
     mongoose = require("mongoose"),
-    Comment = require("./modules/comment")
-Campground = require("./modules/campground"),
+    passport = require("passport"),
+    LocalStrategy = require("passport-local"),
+    passportLocalMongoose = require("passport-local-mongoose"),
+    Comment = require("./models/comment"),
+    Campground = require("./models/campground"),
+    User = require("./models/user"),
     seedDB = require("./seeds");
 
 mongoose.connect("mongodb://localhost/yelp_camp");
