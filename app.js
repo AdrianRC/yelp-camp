@@ -3,6 +3,7 @@ var express = require("express"),
     bodyParser = require("body-parser"),
     mongoose = require("mongoose"),
     passport = require("passport"),
+    flash = require("connect-flash"),
     LocalStrategy = require("passport-local"),
     passportLocalMongoose = require("passport-local-mongoose"),
     methodOverride = require("method-override"),
@@ -23,6 +24,7 @@ app.use(methodOverride("_method"));
 app.use(bodyParser.urlencoded({
     extended: true
 }));
+app.use(flash())
 
 app.use(require("express-session")({
     secret: "This is a secret hash sentence",
@@ -39,6 +41,8 @@ passport.deserializeUser(User.deserializeUser());
 
 app.use(function (req, res, next) {
     res.locals.currentUser = req.user;
+    res.locals.error = req.flash("error");
+    res.locals.success = req.flash("success");
     next();
 });
 
