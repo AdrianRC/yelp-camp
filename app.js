@@ -12,6 +12,8 @@ var express = require("express"),
     User = require("./models/user"),
     seedDB = require("./seeds");
 
+var port = process.env.PORT || 8080;
+
 //Requiring routes
 var commentRoutes = require("./routes/comments"),
     campgroundRoutes = require("./routes/campgrounds"),
@@ -56,7 +58,8 @@ app.get("*", function (req, res) {
     res.send("Sorry, page not found.");
 });
 
-app.listen(3000, function () {
-    console.log("YelpCamp is running on port 3000");
+
+app.listen(port, function () {
+    console.log("YelpCamp is running on port " + port);
 });
 
